@@ -10,14 +10,14 @@ export class PreV414InterfaceBuilder extends InterfaceBuilder {
 
   public addVersionSpecificCommonSchemas(commonSchemas: SchemaInfo[], commonFolderModelsPath: string): SchemaInfo[] {
     this.addCommonSchema(commonSchemas, commonFolderModelsPath, 'BeforeRunEvent',
-      `import { Event } from '@strapi/database/lib/lifecycles/index';
+      `import type { Event } from '@strapi/database/lib/lifecycles/index';
   
     export interface BeforeRunEvent<TState> extends Event {
       state: TState;
     }`);
 
     this.addCommonSchema(commonSchemas, commonFolderModelsPath, 'AfterRunEvent',
-      `import { BeforeRunEvent } from './BeforeRunEvent';
+      `import type { BeforeRunEvent } from './BeforeRunEvent';
   
     export interface AfterRunEvent<TState, TResult> extends BeforeRunEvent<TState> {
       result: TResult;

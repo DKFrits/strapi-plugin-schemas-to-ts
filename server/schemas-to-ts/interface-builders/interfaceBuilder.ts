@@ -77,8 +77,8 @@ export abstract class InterfaceBuilder {
 
     if (extensionFolderModelsPath && FileHelpers.folderExists(`${extensionFolderModelsPath}/users-permissions/content-types/user`)) {
       this.addCommonSchema(commonSchemas, commonFolderModelsPath, 'User',
-        `import {FullUser, FullUser_Plain, FullUser_NoRelations} from "../../extensions/users-permissions/content-types/user/FullUser";
-        export interface User extends FullUser {}`,`
+        `import type {FullUser, FullUser_Plain, FullUser_NoRelations} from "../../extensions/users-permissions/content-types/user/FullUser";
+        export interface User extends FullUser {}`, `
         export interface User_Plain extends FullUser_Plain {}
         export interface User_NoRelations extends FullUser_NoRelations {}
     `);
@@ -124,7 +124,7 @@ export abstract class InterfaceBuilder {
     `);
 
     this.addCommonSchema(commonSchemas, commonFolderModelsPath, 'Media',
-      `import { MediaFormat } from './MediaFormat';
+      `import type { MediaFormat } from './MediaFormat';
     export interface Media {
       id: number;
       attributes: {
@@ -219,7 +219,7 @@ export abstract class InterfaceBuilder {
       if (dependency !== schemaInfo.pascalName &&
         importPath.toLowerCase() !== `./${schemaInfo.pascalName.toLowerCase()}` &&
         importPath.toLowerCase() !== `./${schemaInfo.schemaName.toLowerCase()}`) {
-        const dependencyImport: string = `import { ${dependency} } from '${importPath}';`;
+        const dependencyImport: string = `import type { ${dependency} } from '${importPath}';`;
         this.commonHelpers.logger.verbose(`Adding dependency to ${schemaInfo.pascalName}`, dependencyImport);
         schemaInfo.dependencies.push(dependencyImport);
       }
@@ -506,7 +506,7 @@ export abstract class InterfaceBuilder {
       interfaceText += `${indentation}locale: string;\n`;
       if (schemaType === SchemaType.Standard) {
         interfaceText += `${indentation}localizations?: { data: ${schemaInfo.pascalName}[] };\n`;
-      } else if(schemaType === SchemaType.Plain) {
+      } else if (schemaType === SchemaType.Plain) {
         interfaceText += `${indentation}localizations?: ${schemaInfo.pascalName}${plainClassSuffix}[];\n`;
       } else {
         interfaceText += `${indentation}localizations?: ${schemaInfo.pascalName}[];\n`;

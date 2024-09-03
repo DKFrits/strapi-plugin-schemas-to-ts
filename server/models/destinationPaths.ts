@@ -43,7 +43,6 @@ export class DestinationPaths {
     }
 
     destinationFolder = path.join(strapiPaths.app.root, destinationFolder);
-    this.assertDestinationIsInsideStrapi(destinationFolder, strapiPaths);
 
     destinationFolder = FileHelpers.normalizeWithoutTrailingSeparator(destinationFolder);
     this.assertDestinationIsNotStrapiCoreFolder(destinationFolder, strapiPaths);
@@ -52,12 +51,6 @@ export class DestinationPaths {
     const folders: string[] = relativeRoute.split(path.sep).filter(part => part !== '');
     destinationFolder = FileHelpers.ensureFolderPathExistRecursive(strapiPaths.app.root, ...folders);
     return destinationFolder;
-  }
-
-  private assertDestinationIsInsideStrapi(destinationFolder: string, strapiPaths: StrapiDirectories) {
-    if (!destinationFolder.startsWith(strapiPaths.app.root)) {
-      throw new Error(`${pluginName} ⚠️  The destination folder is not inside the Strapi project: '${destinationFolder}'`);
-    }
   }
 
   private removeStrapiRootPathFromFullPath(destinationFolder: string, strapiRootPath: string): string {
@@ -69,7 +62,7 @@ export class DestinationPaths {
       throw new Error(`${pluginName} ⚠️  The given destinationFolder is the same as the Strapi root`);
     }
 
-    if (destinationFolder=== strapiPaths.app.src) {
+    if (destinationFolder === strapiPaths.app.src) {
       throw new Error(`${pluginName} ⚠️  The given destinationFolder is the same as the Strapi src`);
     }
 
